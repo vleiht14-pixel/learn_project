@@ -3,13 +3,13 @@ def get_status_data():
         "status": "ok",
         "message": "Backend работает",
         "service": "backend-service",
-        "item_count": 3
+        "items_count": 3
     }
 
 
 def get_items_data():
     return [
-        {"id": 1, "name": "Товар 1"},
-        {"id": 2, "name": "Товар 2"},
-        {"id": 3, "name": "Товар 3"},
+        {"id": 1, "name": "Банан Желтый", "image": "banan_yellow.jpg"},
+        {"id": 2, "name": "Банан Зеленый", "image": "banan_green.jpg"},
+        {"id": 3, "name": "Банан Красный", "image": "banan_red.jpg"},
     ]

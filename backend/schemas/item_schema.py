@@ -5,6 +5,7 @@ from apiflask.fields import Integer, String, List, Nested
 class ItemSchema(Schema):
     id = Integer()
     name = String()
+    image = String()
 
 
 class ItemOutSchema(Schema):
