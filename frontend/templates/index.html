@@ -8,13 +8,14 @@
 <body>
     <div class="container">
         <h1>Учёт заявок на ремонт авто</h1>
-        <a href="/create" class="btn">Добавить новую заявку</a>
+        <a href="/create" class="btn" style="margin-bottom: 20px;">Добавить новую заявку</a>
+        <a href="http://127.0.0.1:8000/docs" target="_blank" class="btn-secondary" style="margin-bottom: 20px; text-decoration: none;">Документация (Swagger)</a>
 
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Автомобиль</th>
+                    <th>Автомобиль / Клиент</th>
                     <th>Проблема</th>
                     <th>Стоимость (₽)</th>
                     <th>Статус</th>
@@ -25,19 +26,36 @@
                 {% for repair in repairs %}
                 <tr>
                     <td>{{ repair.id }}</td>
-                    <td>{{ repair.car_model }}</td>
+                    <td>
+                        <strong>{{ repair.car_model }}</strong><br>
+                        <small>📞 {{ repair.phone_number }}</small>
+                    </td>
                     <td>{{ repair.issue }}</td>
                     <td>{{ repair.estimated_cost }}</td>
-                    <td>{{ 'Готово' if repair.is_completed else 'В работе' }}</td>
                     <td>
-                        <form action="/delete/{{ repair.id }}" method="POST" style="margin:0;">
+                        {% if repair.is_completed %}
+                            <span class="badge badge-success">Завершено</span>
+                        {% else %}
+                            <span class="badge badge-warning">В работе</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions-cell">
+                        <a href="/edit/{{ repair.id }}" class="btn-edit">Изменить</a>
+
+                        {% if not repair.is_completed %}
+                        <form action="/close/{{ repair.id }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-close">Закрыть</button>
+                        </form>
+                        {% endif %}
+
+                        <form action="/delete/{{ repair.id }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn-danger">Удалить</button>
                         </form>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6">Заявок пока нет.</td>
+                    <td colspan="6" style="text-align: center;">Заявок пока нет.</td>
                 </tr>
                 {% endfor %}
             </tbody>

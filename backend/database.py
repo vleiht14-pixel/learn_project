@@ -16,6 +16,7 @@ def init_db():
             car_model TEXT NOT NULL,
             issue TEXT NOT NULL,
             estimated_cost REAL NOT NULL,
+            phone_number TEXT NOT NULL,
             is_completed INTEGER NOT NULL
         )
     """)
