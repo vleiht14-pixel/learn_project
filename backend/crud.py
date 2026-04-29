@@ -47,3 +47,24 @@ def delete_repair(repair_id: int):
     deleted = cursor.rowcount > 0
     conn.close()
     return deleted
+
+def delete_multiple_repairs(repair_ids: list[int]):
+    if not repair_ids:
+        return 0
+    conn = get_connection()
+    cursor = conn.cursor()
+    placeholders = ','.join('?' * len(repair_ids))
+    cursor.execute(f"DELETE FROM repairs WHERE id IN ({placeholders})", repair_ids)
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+    return deleted
+
+def delete_all_repairs():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM repairs")
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+    return deleted

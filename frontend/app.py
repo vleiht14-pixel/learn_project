@@ -83,5 +83,19 @@ def delete_repair(repair_id):
     return redirect("/")
 
 
+@app.route("/delete_bulk", methods=["POST"])
+def delete_bulk():
+    repair_ids = request.form.getlist("repair_ids")
+    if repair_ids:
+        repair_ids = [int(rid) for rid in repair_ids]
+        requests.post(f"{API_URL}/repairs/bulk-delete", json={"repair_ids": repair_ids})
+    return redirect("/")
+
+@app.route("/delete_all", methods=["POST"])
+def delete_all():
+    requests.delete(f"{API_URL}/repairs")
+    return redirect("/")
+
+
 if __name__ == "__main__":
     app.run(port=5000)

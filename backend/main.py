@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from database import init_db
 import crud
-from schemas import RepairCreate, RepairRead
+from schemas import RepairCreate, RepairRead, BulkDelete
 
 app = FastAPI(title="Autoservice API")
 
@@ -44,3 +44,13 @@ def remove_repair(repair_id: int):
     if not crud.delete_repair(repair_id):
         raise HTTPException(status_code=404, detail="Заявка не найдена")
     return {"message": "Заявка успешно удалена"}
+
+@app.post("/repairs/bulk-delete")
+def bulk_delete_repairs(payload: BulkDelete):
+    deleted = crud.delete_multiple_repairs(payload.repair_ids)
+    return {"message": f"Удалено записей: {deleted}"}
+
+@app.delete("/repairs")
+def delete_all_repairs():
+    deleted = crud.delete_all_repairs()
+    return {"message": f"Все записи удалены"}

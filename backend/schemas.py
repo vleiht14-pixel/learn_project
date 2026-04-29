@@ -52,3 +52,6 @@ class RepairCreate(RepairBase):
 
 class RepairRead(RepairBase):
     id: int
+
+class BulkDelete(BaseModel):
+   repair_ids: list[int]
